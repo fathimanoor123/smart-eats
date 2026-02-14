@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartEats</title>
+
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<style>
+body{margin:0;font-family:Arial;background:#e9edf5;}
+.splash{
+  height:100vh;display:flex;justify-content:center;
+  align-items:center;flex-direction:column;
+  background:#1f62c9;color:white;
+}
+.logo{font-size:50px;animation:zoom 1.5s infinite alternate;}
+@keyframes zoom{from{transform:scale(1);}to{transform:scale(1.15);}}
+
+/* NAV */
+.nav{
+  background:#1f62c9;color:white;padding:14px 30px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.nav button{
+  margin-left:10px;padding:8px 14px;border:none;
+  border-radius:8px;background:#2e74db;color:white;cursor:pointer;
+}
+
+/* HERO */
+.hero{
+  margin:15px;
+  background:url("https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=1200&q=80") center/cover;
+  height:180px;border-radius:14px;color:white;text-align:center;
+  display:flex;flex-direction:column;justify-content:center;
+}
+
+/* MAIN */
+.main{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:15px;margin:15px;
+}
+.card{background:white;border-radius:12px;padding:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+.section-title{font-size:24px;margin-bottom:10px;}
+
+.recipe-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.recipe{background:#f5f5f5;border-radius:10px;overflow:hidden;cursor:pointer;}
+.recipe img{width:100%;height:140px;object-fit:cover;}
+.recipe p{padding:8px;margin:0;}
+.meal-row{padding:8px;border-bottom:1px solid #ddd;}
+
+/* POPUP */
+.popup{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.5);
+  display:flex;justify-content:center;align-items:center;
+}
+.popup-content{
+  background:white;padding:20px;border-radius:12px;
+  width:320px;text-align:center;
+}
+.popup-content button{
+  width:100%;margin:8px 0;padding:10px;
+  border:none;border-radius:8px;
+  background:#1f62c9;color:white;
+}
+</style>
+</head>
+
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const {useState,useEffect}=React;
+
+function App(){
+
+  const [showSplash,setShowSplash]=useState(true);
+  const [selectedFood,setSelectedFood]=useState(null);
+  const [makerInfo,setMakerInfo]=useState(null);
+  const [plannerDate,setPlannerDate]=useState("");
+  const [cart,setCart]=useState([]);
+  const [showCart,setShowCart]=useState(false);
+  const [showPayment,setShowPayment]=useState(false);
+
+  useEffect(()=>{
+    setTimeout(()=>setShowSplash(false),2500);
+  },[]);
+
+  /* UPDATED FOOD LIST */
+  const foods=[
+["Mandhi","https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80",220],
+["Cake","https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80",150],
+["dessert","https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&w=600&q=80",200],
+["chicken curry","https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?auto=format&fit=crop&w=600&q=80",170],
+["Shawarma","https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=600&q=80",140],
+["Dosa","https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=600&q=80",90],
+["Pasta","https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?auto=format&fit=crop&w=600&q=80",160],
+["Burger","https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80",180],
+["Fried Rice","https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=600&q=80",150],
+["Noodles","https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=600&q=80",130],
+["Paneer Butter Masala","https://images.unsplash.com/photo-1631452180539-96aca7d48617?auto=format&fit=crop&w=600&q=80",190],
+["Idli","https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=600&q=80",70],
+["Samosa","https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80",50],
+["Chappathi","https://images.unsplash.com/photo-1617692855027-33b14f061079?auto=format&fit=crop&w=600&q=80",60],
+["Ice Cream","https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=600&q=80",110],
+["Veg Salad","https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80",100],
+["Sandwich","https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80",120],
+];
+
+  const addToCart=(name,price)=>{
+    setCart([...cart,{name,price}]);
+    alert("Added to cart: "+name);
+  };
+
+  const showRecipe=(name)=>{
+    alert("🍳 Recipe for "+name+"\n\nIngredients + Steps included.");
+  };
+
+  const showMakerDetails=(food)=>{
+    setMakerInfo({
+      food,
+      name:"Lakshmi Home Kitchen",
+      phone:"+91 98765 43210",
+      location:"Town Center",
+      price:"₹150"
+    });
+    alert("🏠 Home Maker: Lakshmi Home Kitchen\nPhone: +91 98765 43210\nLocation: Town Center");
+  };
+
+  const total = cart.reduce((a,b)=>a+b.price,0);
+
+  if(showSplash){
+    return(
+      <div className="splash">
+        <div className="logo">🍏 SmartEats</div>
+        <h2> Smart Kitchen</h2>
+      </div>
+    );
+  }
+
+  return(
+    <div>
+
+      <div className="nav">
+        <h2>🍏 SmartEats</h2>
+        <div>
+          <button>Recipes</button>
+          <button>Planner</button>
+          <button onClick={()=>setShowCart(true)}>
+            🛒 Cart ({cart.length})
+          </button>
+        </div>
+      </div>
+
+      <div className="hero">
+        <h1>Welcome to SmartEats!</h1>
+        <p>Your Smart Kitchen Assistant</p>
+      </div>
+
+      <div className="main">
+
+        <div>
+          <div className="card">
+            <div className="section-title">🍳 MENU</div>
+
+            <div className="recipe-grid">
+              {foods.map((f,i)=>(
+                <div key={i}
+                  className="recipe"
+                  onClick={()=>setSelectedFood(f)}>
+                  <img src={f[1]} alt={f[0]} />
+                  <p><b>{f[0]}</b><br/>₹{f[2]}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div className="card">
+            <div className="section-title">📅 Meal Planner</div>
+            <input type="date"
+              value={plannerDate}
+              onChange={(e)=>setPlannerDate(e.target.value)}
+              style={{width:"100%",padding:"8px",marginBottom:"10px"}}/>
+            {["Mon - Oats","Tue - Salad","Wed - Soup","Thu - Fish Curry"]
+              .map((m,i)=><div key={i} className="meal-row">{m}</div>)}
+          </div>
+        </div>
+
+      </div>
+
+      {selectedFood && (
+        <div className="popup" onClick={()=>setSelectedFood(null)}>
+          <div className="popup-content" onClick={e=>e.stopPropagation()}>
+            <h3>{selectedFood[0]}</h3>
+            <button onClick={()=>showRecipe(selectedFood[0])}>🍳 Recipe</button>
+            <button onClick={()=>showMakerDetails(selectedFood[0])}>🏠 Buy from Home Maker</button>
+            <button onClick={()=>addToCart(selectedFood[0],selectedFood[2])}>
+              🍽 Buy from Restaurant
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showCart && (
+        <div className="popup" onClick={()=>setShowCart(false)}>
+          <div className="popup-content" onClick={e=>e.stopPropagation()}>
+            <h3>🛒 Cart</h3>
+            {cart.length===0 ? <p>No items</p> :
+              cart.map((c,i)=><p key={i}>{c.name} - ₹{c.price}</p>)
+            }
+            <h4>Total: ₹{total}</h4>
+            <button onClick={()=>{
+              setShowCart(false);
+              setShowPayment(true);
+            }}>Buy</button>
+          </div>
+        </div>
+      )}
+
+      {showPayment && (
+        <div className="popup" onClick={()=>setShowPayment(false)}>
+          <div className="popup-content" onClick={e=>e.stopPropagation()}>
+            <h3>💳 Payment</h3>
+            <p>Total Amount: ₹{total}</p>
+            <button onClick={()=>{
+              alert("Payment Successful ✅");
+              setCart([]);
+              setShowPayment(false);
+            }}>
+              Pay Now
+            </button>
+            <button onClick={()=>setShowPayment(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+
+</body>
+</html>
