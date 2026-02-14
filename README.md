@@ -1,76 +1,72 @@
-<p align="center">
-  <img src="./img.png" alt="Project Banner" width="100%">
-</p>
 
-# cfg 🎯
+# smart eats
 
 ## Basic Details
 
-### Team Name: [Name]
+### Team Name: infinity
 
 ### Team Members
-- Member 1: [Name] - [College]
-- Member 2: [Name] - [College]
+- Member 1: Fathima noor tp - ilahia college of engineering ang technology
+- Member 2: shahanas basheer - ilahia college of engineering ang technology
 
 ### Hosted Project Link
-[mention your project hosted link here]
+https://fathimanoor123.github.io/smart-eats/
 
 ### Project Description
-[2-3 lines about what your project does]
+SmartEats is a responsive food ordering web application built using React that allows users to browse food items, view images and prices, add products to a cart, and simulate purchases through a simple interface. The platform is designed to provide an easy digital selling solution for small food vendors and homemakers.
 
 ### The Problem statement
-[What problem are you solving?]
+Many small food businesses and homemakers struggle to sell their food products online because existing platforms are complex, expensive, or commission-based. They need a simple, affordable, and easy-to-use system to showcase their food and reach customers digitally.
 
 ### The Solution
-[How are you solving it?]
+SmartEats provides a simple web platform where small food businesses and homemakers can list their food items online, and customers can easily browse, add to cart, and place orders through a user-friendly interface.
 
----
 
 ## Technical Details
 
 ### Technologies/Components Used
 
 **For Software:**
-- Languages used: [e.g., JavaScript, Python, Java]
-- Frameworks used: [e.g., React, Django, Spring Boot]
-- Libraries used: [e.g., axios, pandas, JUnit]
-- Tools used: [e.g., VS Code, Git, Docker]
-
-**For Hardware:**
-- Main components: [List main components]
-- Specifications: [Technical specifications]
-- Tools required: [List tools needed]
-
----
+**Languages used:** HTML, CSS, JavaScript  
+- **Frameworks used:** React (CDN Version)  
+- **Libraries used:** None (Pure React implementation)  
+- **Tools used:** VS Code, Git, GitHub, Google Chrome  
 
 ## Features
+- User-Friendly Login:** Simple interface for users to access the platform.  
+- Food Catalog with Images:** Browse multiple food items along with pictures and prices.  
+- Add to Cart Functionality:** Users can select items and manage them in a cart before purchase.  
+- Quick Buy Option:** Allows instant order simulation with one click.  
 
-List the key features of your project:
-- Feature 1: [Description]
-- Feature 2: [Description]
-- Feature 3: [Description]
-- Feature 4: [Description]
-
----
 
 ## Implementation
 
 ### For Software:
+SmartEats is implemented as a frontend web application using HTML, CSS, JavaScript, and React (CDN version). The user interface is built with reusable React components that dynamically render food items, manage the cart, and handle user interactions such as adding products and simulating purchases. All logic runs directly in the browser without requiring a backend server or database.
+
+
 
 #### Installation
 ```bash
-[Installation commands - e.g., npm install, pip install -r requirements.txt]
+# Clone the repository
+git clone https://github.com/yourusername/smarteats.git
+
+# Go into the project folder
+cd smarteats
 ```
+
 
 #### Run
 ```bash
-[Run commands - e.g., npm start, python app.py]
+# Open the project in your browser
+Open index.html
 ```
 
 ### For Hardware:
+Not applicable — this is a software-only web project.
 
 #### Components Required
-[List all components needed with specifications]
+
 
 #### Circuit Setup
 [Explain how to set up the circuit]
@@ -83,26 +79,32 @@ List the key features of your project:
 
 #### Screenshots (Add at least 3)
 
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+<img width="895" height="362" alt="Screenshot 2026-02-14 092644" src="https://github.com/user-attachments/assets/08f6dfc2-2398-4b31-9f6f-6fc60f92e733" />
+<img width="534" height="277" alt="Screenshot 2026-02-14 092734" src="https://github.com/user-attachments/assets/66d55c59-5956-4346-bc37-5ea554865810" />
+<img width="587" height="170" alt="Screenshot 2026-02-14 092804" src="https://github.com/user-attachments/assets/b588984e-4b26-4e95-a4d5-75e3f34c0f20" />
+<img width="516" height="206" alt="Screenshot 2026-02-14 092856" src="https://github.com/user-attachments/assets/e4a37cae-7a68-4b6b-a8ec-e2d203d1268f" />
+<img width="372" height="221" alt="Screenshot 2026-02-14 092916" src="https://github.com/user-attachments/assets/c501648a-7445-48bd-83a6-041281cfaa35" />
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+
 
 #### Diagrams
 
 **System Architecture:**
 
-![Architecture Diagram](docs/architecture.png)
-*Explain your system architecture - components, data flow, tech stack interaction*
+![Architecture Diagram](<img width="1536" height="1024" alt="architecture" src="https://github.com/user-attachments/assets/79d641eb-b62b-4e12-853f-64dfdea38968" />
+)
+SmartEats follows a simple client-side web architecture. The user accesses the application through a web browser, which loads the HTML structure and CSS styling. React (via CDN) is used to build reusable UI components such as the login page, food list, cart, and buy controls.
+
+Food information including names, images, and prices is stored in JavaScript arrays. These data are passed into React components, which render the content dynamically on the screen. When the user performs actions like browsing items, adding food to the cart, or clicking the buy button, React event handlers update the application state and instantly refresh the UI.
+
+Data flow remains within the browser: User → Browser → React Components → JavaScript Data → Updated Interface. Because no backend server or database is required, the system is lightweight, fast, and easy to deploy.
 
 **Application Workflow:**
 
-![Workflow](docs/workflow.png)
-*Add caption explaining your workflow*
+![Workflow](<img width="1536" height="1024" alt="workflow" src="https://github.com/user-attachments/assets/71b8f851-4e2e-4703-afe3-3f5a5a7dc225" />
+)
+
 
 ---
 
